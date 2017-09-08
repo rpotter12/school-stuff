@@ -22,6 +22,7 @@ void main() {
     printf("Value of a: %d\n", a);
     printf("Value of b: %d\n", b);
 
+
     printf("\n\nPostfix in C:");
 
     y = 5;
