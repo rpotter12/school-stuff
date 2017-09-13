@@ -1,35 +1,53 @@
 import requests
 
 
-url = 'http://www.pdfaid.com/Upload.ashx'
+random_code = 'A2B3cDEf'
+output_file = 'AbCd123e'
 
-headers = {
-        'Host': 'www.pdfaid.com',
-        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:55.0) Gecko/20100101 Firefox/55.0',
-        'Accept': '*/*',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Accept-Encoding': 'gzip, deflate',
-        'Referer': 'http://www.pdfaid.com/dwg-to-pdf-conversion.aspx',
-        'Content-Length': '41100',
-        'Content-Type': 'multipart/form-data; boundary=---------------------------20536363942023438477859369942',
-        'Cookie': '_ga=GA1.2.438348521.1505234174; _gid=GA1.2.1093387795.1505234174; _gat=1',
-        'Connection': 'keep-alive',
-    }
+
 
 with open('Ex2_Fig1.dwg', 'rb') as filein:
     content = filein.read()
 
-data = {
-        'name': 'Ex2_Fig1.dwg',
-        'chunk': '0',
-        'chunks': '1',
-        'Random': 'SILVJOkU',
-        'file': content
+url = 'http://www.pdfaid.com/Upload.ashx'
+
+headers = {
+         'Accept': '*/*',
+         'Accept-Encoding': 'gzip, '
+                            'deflate',
+         'Accept-Language': 'en-US,en;q=0.5',
+         'Connection': 'keep-alive',
+         'Content-Type': 'multipart/form-data; '
+                         'boundary=---------------------------3096710385416081101761760526',
+         'Cookie': '_ga=GA1.2.438348521.1505234174; '
+                   '_gid=GA1.2.1093387795.1505234174',
+         'Referer': 'http://www.pdfaid.com/dwg-to-pdf-conversion.aspx',
+         'User-Agent': 'Mozilla/5.0 '
+                       '(X11; '
+                       'Ubuntu; '
+                       'Linux '
+                       'x86_64; '
+                       'rv:55.0) '
+                       'Gecko/20100101 '
+                       'Firefox/55.0'
     }
 
-response = requests.post(url, headers=headers, data=data)
-print(response.text)
+response = requests.post(url, headers=headers,
+    data=(b'-----------------------------3096710385416081101761760526\r\nContent-Dispo'
+     b'sition: form-data; name="name"\r\n\r\nlinks.dwg\r\n-----------------------'
+     b'------3096710385416081101761760526\r\nContent-Disposition: form-data; name'
+     b'="chunk"\r\n\r\n0\r\n-----------------------------309671038541608110176176'
+     b'0526\r\nContent-Disposition: form-data; name="chunks"\r\n\r\n1\r\n----------'
+     b'-------------------3096710385416081101761760526\r\nContent-Disposition: fo'
+     b'rm-data; name="Random"\r\n\r\n{0}\r\n-----------------------------309'
+     b'6710385416081101761760526\r\nContent-Disposition: form-data; name="file"; '
+     b'filename="links.dwg"\r\nContent-Type: application/vnd.VAR_VENDOR_NAME.VAR_'
+     b'PRODUCT_NAME-dwg\r\n\r\n{1}'
+     b'\n\r\n-----------------------------3096710385416081101761760526--\r'
+     b'\n').format(random_code, content)
+)
 
+print(response.text)
 
 url = 'http://www.pdfaid.com/dwg-to-pdf-conversion.aspx/ConvertFile'
 
@@ -51,9 +69,9 @@ headers = {
 json = {
     'Author': '',
     'Color': 'True Colors',
-    'InputFileName': 'OT2TN3V9.dwg',
+    'InputFileName': random_code + '.dwg',
     'Keywords': '',
-    'OutputFileName': 'z0xs3Df9',
+    'OutputFileName': output_file,
     'Quality': 'Medium',
     'Subject': '',
     'Title': '',
@@ -69,38 +87,4 @@ response = requests.request(
 
 print(response.text)
 
-print('http://www.pdfaid.com/DownloadFiles/dwg2pdf_z0xs3Df9.pdf')
-
-'''import requests
-
-
-with open('Ex2_Fig1.dwg', 'rb') as filein:
-    content = filein.read()
-
-data = {
-        'name': 'Ex2_Fig1.dwg',
-        'chunk': '0',
-        'chunks': '1',
-        'Random': 'OT2TN1V1',
-        'file': content
-    }
-
-response = requests.post('http://www.pdfaid.com/Upload.ashx', data=data)
-print(response.text)
-
-data = {
-    "Author": "",
-    "Color": "True Colors",
-    "InputFileName": "OT2TN1V1.dwg",
-    "Keywords": "",
-    "OutputFileName": "z0xs0Dfk",
-    "Quality": "Medium",
-    "Subject": "",
-    "Title": ""
-}
-
-response = requests.post('http://www.pdfaid.com/dwg-to-pdf-conversion.aspx/ConvertFile', data=data)
-print(response.text)
-
-print('http://www.pdfaid.com/DownloadFiles/dwg2pdf_z0xs0Dflk.pdf')
-'''
+print('http://www.pdfaid.com/DownloadFiles/dwg2pdf_' + output_file + '.pdf')
