@@ -10,8 +10,8 @@ def get_arguments():
 
     parser.add_argument(
         'content',
-        metavar='content',
-        help='.dwg, .pdf or an image file as an input')
+        metavar='CONTENT',
+        help='.dwg, or converted to .pdf or image as an input')
     parser.add_argument(
         '-n',
         '--name',
