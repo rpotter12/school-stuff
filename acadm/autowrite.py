@@ -19,7 +19,10 @@ draw.rectangle(((5096, 5156), (5852, 5348)), fill="white")
 draw.text((5110, 5216),"B.E. CSE",(0,0,0),font=font)
 
 # write title
-draw.rectangle(((5904, 4680), (7056, 4980)), fill="white")
+#draw.rectangle(((5904, 4680), (7056, 4980)), fill="white")
+font = ImageFont.truetype("Times_New_Roman.ttf", 99)
+draw.text((5936, 4733),"TITLE OF DRAWING TO",(0,0,0),font=font)
+draw.text((5938, 4839),"BE WRITTEN HERE",(0,0,0),font=font)
 
 
 img.save('sample-out.jpg')
