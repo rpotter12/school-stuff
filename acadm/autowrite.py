@@ -1,7 +1,11 @@
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+import requests
 import argparse
+import json
+import os.path
+from StringIO import StringIO
 
 
 def get_arguments():
@@ -39,6 +43,39 @@ def get_arguments():
         help='2nd line of title')
 
     return parser.parse_args()
+
+
+def dwg_to_jpg(filepath):
+    with open(filepath, 'r') as filein:
+        content = filein.read()
+
+    filename = os.path.basename(filepath)
+    url = 'https://coolutils.org/upload2.php'
+
+    headers={'content-type': 'multipart/form-data; '
+             'boundary=---------------------------1090027043118981933681270900'}
+
+    data=(b'-----------------------------1090027043118981933681270900\r\n'
+     b'Content-Disposition: form-data; name="files[]"; filename="{0}\r\n'
+     b'Content-Type: text/plain\r\n\r\n'
+     b'{1}\n\r\n'
+     b'-----------------------------1090027043118981933681270900--\r\n').format(filename, content)
+
+    response = requests.post(url, headers=headers, data=data)
+
+    parsed = json.loads(response.text)
+    result_name = parsed['files'][0]['name']
+    print(result_name)
+
+
+    url = 'https://coolutils.org/cad_convert.php'
+
+    headers = {'content-type': 'application/x-www-form-urlencoded'}
+
+    response = requests.post(url, headers=headers,
+        data=b'Flag=1&srcfile={0}&src=0&fmt=jpg'.format(result_name)
+    )
+    # response.text = zip containing pics
 
 
 def command_line():
