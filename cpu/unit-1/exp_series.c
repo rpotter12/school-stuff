@@ -2,8 +2,8 @@
 
 int main() {
     int i, n, exp;
-    float x,
-    float sum = 1
+    float x;
+    float sum = 1;
     float t = 1;
 
     printf("Enter the value for x : ");
